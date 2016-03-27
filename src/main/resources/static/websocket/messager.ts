@@ -31,20 +31,31 @@ export class WebsocketMessager {
     ];
     socket: StompWebsocket = new StompWebsocket();
 
+
     constructor() {
         this.socket.client = new SockJS("/ideas");
         console.log(this.socket.client);
-        this.socket.stomp = Stomp.over(this.socket.client);
-        this.socket.stomp.connect({}, function(frame) {
+        client = Stomp.over(this.socket.client);
+        this.socket.stomp = client;
+
+        let pushMessageLambda = (message) => this.pushMessage({content: message.body});
+
+        client.connect({}, function(frame) {
             console.log(frame);
+
+            client.subscribe("/topic/conversations", pushMessageLambda)
         });
 
         this.newMessage = {content: ''};
         this.initialMessages.forEach((message) => this.messages.push(message));
     }
 
-    send() {
-        this.messages.push({content: this.newMessage.content});
+    public pushMessage(message: Message) {
+        this.messages.push(message);
+    }
+
+    public send() {
+        this.socket.stomp.send("/app/conversations", {}, JSON.stringify({ content: this.newMessage.content }));
 
         this.newMessage.content = '';
     }
