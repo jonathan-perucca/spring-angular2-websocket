@@ -15,10 +15,16 @@
     <script>
         System.config({
             transpiler: 'typescript',
-            typescriptOptions: { emitDecoratorMetadata: true },
-            packages: {'app': {defaultExtension: 'ts'}}
+            typescriptOptions: {
+                emitDecoratorMetadata: true
+            },
+            packages: {
+                'websocket': {
+                    defaultExtension: 'ts'
+                }
+            }
         });
-        System.import('app/main')
+        System.import('main.ts')
                 .then(null, console.error.bind(console));
     </script>
 </head>
