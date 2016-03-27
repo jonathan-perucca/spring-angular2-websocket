@@ -1,5 +1,9 @@
 import {Component} from 'angular2/core';
+import {StompWebsocket} from './stomp-websocket';
 import {Message} from './message';
+
+declare var SockJS: any;
+declare var Stomp: any;
 
 @Component({
     selector: 'websocket-messager',
@@ -18,12 +22,26 @@ import {Message} from './message';
     `
 })
 export class WebsocketMessager {
-    newMessage: Message = {content: ''};
-    messages: Message[] = [
+    newMessage: Message;
+    messages: Message[] = [];
+    initialMessages = [
         {content: 'Awesome communication'},
         {content: 'Seriously ? Angular 2 + WS over Stomp ?'},
         {content: 'Dockerize all of it buddy'}
     ];
+    socket: StompWebsocket = new StompWebsocket();
+
+    constructor() {
+        this.socket.client = new SockJS("/ideas");
+        console.log(this.socket.client);
+        this.socket.stomp = Stomp.over(this.socket.client);
+        this.socket.stomp.connect({}, function(frame) {
+            console.log(frame);
+        });
+
+        this.newMessage = {content: ''};
+        this.initialMessages.forEach((message) => this.messages.push(message));
+    }
 
     send() {
         this.messages.push({content: this.newMessage.content});

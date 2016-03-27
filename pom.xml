@@ -24,6 +24,7 @@
 
 		<!-- webjars versions -->
 		<stomp-websocket.version>2.3.1</stomp-websocket.version>
+		<sockjs-client.version>0.3.4</sockjs-client.version>
 	</properties>
 
 	<dependencies>
@@ -45,6 +46,12 @@
 			<artifactId>stomp-websocket</artifactId>
 			<version>${stomp-websocket.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>sockjs-client</artifactId>
+			<version>${sockjs-client.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
