@@ -2,8 +2,6 @@ import {Component} from 'angular2/core';
 import {StompWebsocket} from './stomp-websocket';
 import {Message} from './message';
 
-declare var SockJS: any;
-declare var Stomp: any;
 
 @Component({
     selector: 'websocket-messager',
@@ -24,11 +22,10 @@ declare var Stomp: any;
 export class WebsocketMessager {
     newMessage: Message;
     messages: Message[] = [];
-    socket: StompWebsocket = new StompWebsocket();
+    socket: StompWebsocket;
 
     constructor() {
-        this.socket.client = new SockJS("/ideas");
-        client = Stomp.over(this.socket.client);
+        this.socket = new StompWebsocket("/ideas");
 
         let pushMessageLambda = (message) => {
             var parsedBody = JSON.parse(message.body);
@@ -39,14 +36,10 @@ export class WebsocketMessager {
 
             this.pushMessages(parsedBody);
         };
-        client.connect({}, function(frame) {
-            console.log('Frame: ' + frame);
+        this.socket.subscribe("/app/conversations", pushMessageLambda);
+        this.socket.subscribe("/topic/conversations", pushMessageLambda);
+        this.socket.listen();
 
-            client.subscribe("/app/conversations", pushMessageLambda);
-            client.subscribe("/topic/conversations", pushMessageLambda);
-        });
-
-        this.socket.stomp = client;
         this.newMessage = {content: ''};
     }
 
@@ -55,7 +48,7 @@ export class WebsocketMessager {
     }
 
     public send() {
-        this.socket.stomp.send("/app/conversations", {}, JSON.stringify({ content: this.newMessage.content }));
+        this.socket.send("/app/conversations", {}, JSON.stringify({ content: this.newMessage.content }));
 
         this.newMessage.content = '';
     }
