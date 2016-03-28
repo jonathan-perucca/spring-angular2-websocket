@@ -1,4 +1,4 @@
-package com.github.jperucca;
+package com.github.jperucca.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

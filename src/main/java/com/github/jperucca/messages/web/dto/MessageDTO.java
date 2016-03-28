@@ -1,7 +1,11 @@
 package com.github.jperucca.messages.web.dto;
 
-import lombok.Getter;
+import lombok.*;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Getter
 public class MessageDTO {
     private String content;

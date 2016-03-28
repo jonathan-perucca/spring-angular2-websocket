@@ -24,32 +24,34 @@ declare var Stomp: any;
 export class WebsocketMessager {
     newMessage: Message;
     messages: Message[] = [];
-    initialMessages = [
-        {content: 'Awesome communication'},
-        {content: 'Seriously ? Angular 2 + WS over Stomp ?'},
-        {content: 'Dockerize all of it buddy'}
-    ];
     socket: StompWebsocket = new StompWebsocket();
-
 
     constructor() {
         this.socket.client = new SockJS("/ideas");
         client = Stomp.over(this.socket.client);
 
-        let pushMessageLambda = (message) => this.pushMessage(JSON.parse(message.body));
-        client.connect({}, function(frame) {
-            console.log(frame);
+        let pushMessageLambda = (message) => {
+            var parsedBody = JSON.parse(message.body);
 
+            if(!Array.isArray(parsedBody)) {
+                parsedBody = [parsedBody];
+            }
+
+            this.pushMessages(parsedBody);
+        };
+        client.connect({}, function(frame) {
+            console.log('Frame: ' + frame);
+
+            client.subscribe("/app/conversations", pushMessageLambda);
             client.subscribe("/topic/conversations", pushMessageLambda);
         });
 
         this.socket.stomp = client;
         this.newMessage = {content: ''};
-        this.initialMessages.forEach((message) => this.messages.push(message));
     }
 
-    public pushMessage(message: Message) {
-        this.messages.push(message);
+    public pushMessages(messages: Message[]) {
+        messages.forEach((m) => this.messages.push(m));
     }
 
     public send() {
