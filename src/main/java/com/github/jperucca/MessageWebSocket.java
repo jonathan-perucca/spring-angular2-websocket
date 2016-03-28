@@ -12,9 +12,11 @@ public class MessageWebSocket {
     private static final Logger logger = getLogger(MessageWebSocket.class);
 
     @MessageMapping("/conversations")
-    public String handleMessage(String message) {
-        logger.info("Message Received : {}", message);
+    public MessageDTO handleMessage(MessageDTO messageDTO) {
+        logger.info("Message Received : {}", messageDTO);
 
-        return "New message: " + message;
+        messageDTO.appendContent("New message: ");
+
+        return messageDTO;
     }
 }

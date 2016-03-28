@@ -22,6 +22,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 
+		<!-- utility libs -->
+		<lombok.version>1.16.8</lombok.version>
+
 		<!-- webjars versions -->
 		<stomp-websocket.version>2.3.1</stomp-websocket.version>
 		<sockjs-client.version>0.3.4</sockjs-client.version>
@@ -41,6 +44,11 @@
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>stomp-websocket</artifactId>

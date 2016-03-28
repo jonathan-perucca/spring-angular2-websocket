@@ -34,18 +34,16 @@ export class WebsocketMessager {
 
     constructor() {
         this.socket.client = new SockJS("/ideas");
-        console.log(this.socket.client);
         client = Stomp.over(this.socket.client);
-        this.socket.stomp = client;
 
-        let pushMessageLambda = (message) => this.pushMessage({content: message.body});
-
+        let pushMessageLambda = (message) => this.pushMessage(JSON.parse(message.body));
         client.connect({}, function(frame) {
             console.log(frame);
 
-            client.subscribe("/topic/conversations", pushMessageLambda)
+            client.subscribe("/topic/conversations", pushMessageLambda);
         });
 
+        this.socket.stomp = client;
         this.newMessage = {content: ''};
         this.initialMessages.forEach((message) => this.messages.push(message));
     }
