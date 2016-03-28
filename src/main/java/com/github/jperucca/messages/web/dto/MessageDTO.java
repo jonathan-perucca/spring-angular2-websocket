@@ -1,4 +1,4 @@
-package com.github.jperucca;
+package com.github.jperucca.messages.web.dto;
 
 import lombok.Getter;
 

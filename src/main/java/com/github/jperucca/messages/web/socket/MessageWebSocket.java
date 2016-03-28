@@ -1,5 +1,6 @@
-package com.github.jperucca;
+package com.github.jperucca.messages.web.socket;
 
+import com.github.jperucca.messages.web.dto.MessageDTO;
 import org.slf4j.Logger;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
