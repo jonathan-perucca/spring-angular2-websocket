@@ -1,37 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>WebSocket workshop</title>
-
-    <script src="webjars/stomp-websocket/2.3.1/stomp.min.js"></script>
-    <script src="webjars/sockjs-client/0.3.4/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.0/es6-shim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.16/system-polyfills.js"></script>
-    <script src="https://npmcdn.com/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
-    <script src="https://code.angularjs.org/tools/system.js"></script>
-    <script src="https://code.angularjs.org/tools/typescript.js"></script>
-    <script src="https://code.angularjs.org/2.0.0-beta.12/angular2-polyfills.js"></script>
-    <script src="https://code.angularjs.org/2.0.0-beta.12/Rx.js"></script>
-    <script src="https://code.angularjs.org/2.0.0-beta.12/angular2.dev.js"></script>
-    <script>
-        System.config({
-            transpiler: 'typescript',
-            typescriptOptions: {
-                emitDecoratorMetadata: true
-            },
-            packages: {
-                'websocket': {
-                    defaultExtension: 'ts'
-                }
-            }
-        });
-        System.import('main.ts')
-                .then(null, console.error.bind(console));
-    </script>
 </head>
 <body>
+    <form method="post">
+        <label for="username"> Username</label>
+        <input type="text" placeholder="Enter your name" name="username" />
 
-    <websocket-messager>Loading ...</websocket-messager>
+        <label for="password"> Admin password </label>
+        <input type="password" name="password" />
+
+        <input type="submit" value="Authenticate"/>
+    </form>
 </body>
 </html>

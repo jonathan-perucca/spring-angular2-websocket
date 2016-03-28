@@ -6,6 +6,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -32,7 +33,8 @@ public class MessageWebSocket {
     }
 
     @MessageMapping("/conversations")
-    public MessageDTO handleMessage(MessageDTO messageDTO) {
+    public MessageDTO handleMessage(MessageDTO messageDTO, Principal principal) {
+        logger.info("User connected info : {}", principal);
         logger.info("Message Received : {}", messageDTO);
 
         messageDTO.appendContent("New message: ");
