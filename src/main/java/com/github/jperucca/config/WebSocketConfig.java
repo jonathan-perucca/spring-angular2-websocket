@@ -22,3 +22,5 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
                 .enableSimpleBroker("/topic");
     }
 }
+
+// Datasource => Read > broadcast topic (all clients)

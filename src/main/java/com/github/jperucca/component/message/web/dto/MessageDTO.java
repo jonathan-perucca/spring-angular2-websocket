@@ -1,4 +1,4 @@
-package com.github.jperucca.messages.web.dto;
+package com.github.jperucca.component.message.web.dto;
 
 import lombok.*;
 
