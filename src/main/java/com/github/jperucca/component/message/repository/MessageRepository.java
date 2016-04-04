@@ -1,13 +1,14 @@
 package com.github.jperucca.component.message.repository;
 
 import com.github.jperucca.component.message.web.dto.MessageDTO;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
+import static com.github.jperucca.component.message.repository.MessageRepository.ThreadLocalAleatory.random;
+import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
@@ -27,16 +28,27 @@ public class MessageRepository {
     }
 
     public List<MessageDTO> getServerMessages() {
-        return serverMessages.stream()
-                .onClose(serverMessages::clear)
-                .collect(toList());
+        List<MessageDTO> messageDTOs = serverMessages.stream().collect(toList());
+        serverMessages.clear();
+        return messageDTOs;
     }
 
-    @Scheduled(fixedDelay = 1000)
     public void generateServerMessage() {
-        int aleatoryNumber = new Random(10).ints(0, 10).findFirst().getAsInt();
-        MessageDTO messageDTO = MessageDTO.builder().content("Aleatory message " + aleatoryNumber).build();
+        int maxServerMessage = 5;
+        if (serverMessages.size() < maxServerMessage) {
+            int aleatoryMin = 0, aleatoryMax = 10;
 
-        serverMessages.add(messageDTO);
+            MessageDTO messageDTO = MessageDTO.builder()
+                    .content("Aleatory message ".concat(valueOf(random(aleatoryMin, aleatoryMax))))
+                    .build();
+
+            serverMessages.add(messageDTO);
+        }
+    }
+
+    static class ThreadLocalAleatory {
+        public static int random(int min, int max) {
+            return ThreadLocalRandom.current().nextInt(min, max + 1);
+        }
     }
 }

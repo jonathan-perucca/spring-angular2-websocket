@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+import static com.github.jperucca.component.message.MessageRoute.CONVERSATION_BROKER_ROUTE;
+
 @Controller
 public class MessagePublisher {
 
@@ -27,6 +29,6 @@ public class MessagePublisher {
     public void pushServerMessage(ServerPublishEvent event) {
         List<MessageDTO> serverMessages = messageComponent.getServerMessages();
 
-        messagingTemplate.convertAndSend("/topic/conversations", serverMessages);
+        messagingTemplate.convertAndSend(CONVERSATION_BROKER_ROUTE, serverMessages);
     }
 }
